@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* Apply Inter font globally */
         body {
@@ -22,31 +22,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Optional: Subtle background */
-            /* background-color: #f8f8f8; */
+             /* Set a default background for the page itself (optional) */
+            background-color: #f7fafc; /* Tailwind's gray-100 */
         }
-        /* Style for the container */
-        .widget-container {
-            text-align: center;
-            padding: 1rem; /* Add some padding */
-        }
+        /* Style for the container - using Tailwind classes mostly now */
         /* Style for the time */
         .time {
-            font-size: 3rem; /* Larger font size for time */
+            font-size: 3.5rem; /* Slightly larger font size */
             font-weight: 500; /* Medium weight */
             line-height: 1.1; /* Adjust line height */
-            color: #333; /* Dark grey color */
+            color: #1a202c; /* Tailwind's gray-900 */
+            letter-spacing: -0.025em; /* Slightly tighter letter spacing */
         }
         /* Style for the date */
         .date {
-            font-size: 1rem; /* Standard font size for date */
-            font-weight: 400; /* Regular weight */
-            color: #666; /* Lighter grey color */
-            margin-top: 0.25rem; /* Small space between time and date */
+            font-size: 1.1rem; /* Slightly larger date */
+            font-weight: 300; /* Lighter weight for date */
+            color: #718096; /* Tailwind's gray-600 */
+            margin-top: 0.5rem; /* Increased space between time and date */
         }
     </style>
 </head>
-<body class="bg-white"> <div class="widget-container">
+<body class="bg-gray-100"> <div class="widget-container bg-white p-6 rounded-lg shadow-sm text-center">
         <div id="time" class="time">--:--:--</div>
         <div id="date" class="date">---, --- --, ----</div>
     </div>
@@ -61,14 +58,17 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
+            // Construct the time string (HH:MM:SS)
             const currentTime = `${hours}:${minutes}:${seconds}`;
+            // --- Optional: Time without seconds ---
+            // const currentTime = `${hours}:${minutes}`;
 
             // --- Date Formatting ---
             // Define options for toLocaleDateString for a nice format
             const dateOptions = {
-                weekday: 'short', // e.g., 'Tue'
+                weekday: 'long', // e.g., 'Tuesday'
                 year: 'numeric',  // e.g., '2025'
-                month: 'short',   // e.g., 'Apr'
+                month: 'long',   // e.g., 'April'
                 day: 'numeric'    // e.g., '22'
             };
             // Format the date according to locale and options
@@ -87,6 +87,16 @@
 
         // Set interval to update the clock every second (1000 milliseconds)
         setInterval(updateClock, 1000);
+
+        // --- Optional: If you removed seconds, update only once per minute ---
+        // function updateClockWithoutSeconds() {
+        //     updateClock(); // Call the main update function
+        //     // Calculate milliseconds until the next minute
+        //     const now = new Date();
+        //     const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+        //     setTimeout(updateClockWithoutSeconds, msUntilNextMinute); // Schedule next update
+        // }
+        // updateClockWithoutSeconds(); // Initial call for the minute-based update
     </script>
 
 </body>
