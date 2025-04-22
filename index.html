@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Clock & Date</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Prevent text selection */
+            user-select: none;
+            /* Ensure body takes full height for centering */
+            min-height: 100vh;
+            /* Remove default margin */
+            margin: 0;
+            /* Center content vertically and horizontally */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Optional: Subtle background */
+            /* background-color: #f8f8f8; */
+        }
+        /* Style for the container */
+        .widget-container {
+            text-align: center;
+            padding: 1rem; /* Add some padding */
+        }
+        /* Style for the time */
+        .time {
+            font-size: 3rem; /* Larger font size for time */
+            font-weight: 500; /* Medium weight */
+            line-height: 1.1; /* Adjust line height */
+            color: #333; /* Dark grey color */
+        }
+        /* Style for the date */
+        .date {
+            font-size: 1rem; /* Standard font size for date */
+            font-weight: 400; /* Regular weight */
+            color: #666; /* Lighter grey color */
+            margin-top: 0.25rem; /* Small space between time and date */
+        }
+    </style>
+</head>
+<body class="bg-white"> <div class="widget-container">
+        <div id="time" class="time">--:--:--</div>
+        <div id="date" class="date">---, --- --, ----</div>
+    </div>
+
+    <script>
+        // Function to update the clock and date display
+        function updateClock() {
+            const now = new Date();
+
+            // --- Time Formatting ---
+            // Get hours, minutes, seconds
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const currentTime = `${hours}:${minutes}:${seconds}`;
+
+            // --- Date Formatting ---
+            // Define options for toLocaleDateString for a nice format
+            const dateOptions = {
+                weekday: 'short', // e.g., 'Tue'
+                year: 'numeric',  // e.g., '2025'
+                month: 'short',   // e.g., 'Apr'
+                day: 'numeric'    // e.g., '22'
+            };
+            // Format the date according to locale and options
+            const currentDate = now.toLocaleDateString(undefined, dateOptions); // 'undefined' uses the browser's default locale
+
+            // --- Update HTML ---
+            // Set the text content of the time element
+            document.getElementById('time').textContent = currentTime;
+            // Set the text content of the date element
+            document.getElementById('date').textContent = currentDate;
+        }
+
+        // --- Initial Call & Interval ---
+        // Call updateClock once immediately to avoid delay
+        updateClock();
+
+        // Set interval to update the clock every second (1000 milliseconds)
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>
